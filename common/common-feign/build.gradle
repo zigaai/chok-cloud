@@ -1,0 +1,14 @@
+dependencies {
+    api 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    api 'io.github.openfeign:feign-okhttp'
+    api 'com.alibaba.cloud:spring-cloud-starter-alibaba-sentinel'
+    compileOnly 'org.springframework:spring-webmvc'
+    implementation project(":common:common-core")
+
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}

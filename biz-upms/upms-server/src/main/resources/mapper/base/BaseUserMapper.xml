@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zigaai.upms.mapper.UserMapper">
+    <!--@Table `user`-->
+    <resultMap id="BaseResultMap" type="com.zigaai.upms.model.entity.User">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="username" jdbcType="VARCHAR" property="username" />
+        <result column="password" jdbcType="VARCHAR" property="password" />
+        <result column="salt" jdbcType="VARCHAR" property="salt" />
+        <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+        <result column="real_name" jdbcType="VARCHAR" property="realName" />
+        <result column="phone" jdbcType="VARCHAR" property="phone" />
+        <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="state" jdbcType="BIT" property="state" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, username, `password`, salt, nick_name, real_name, phone, avatar, create_time, state
+    </sql>
+
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.zigaai.upms.model.entity.User" useGeneratedKeys="true">
+        insert into `user`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="username != null">
+                username,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="salt != null">
+                salt,
+            </if>
+            <if test="nickName != null">
+                nick_name,
+            </if>
+            <if test="realName != null">
+                real_name,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="avatar != null">
+                avatar,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="username != null">
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="salt != null">
+                #{salt,jdbcType=VARCHAR},
+            </if>
+            <if test="nickName != null">
+                #{nickName,jdbcType=VARCHAR},
+            </if>
+            <if test="realName != null">
+                #{realName,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="avatar != null">
+                #{avatar,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=BIT},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.zigaai.upms.model.entity.User">
+      update `user`
+      <set>
+        <if test="et.username != null">
+            username = #{et.username,jdbcType=VARCHAR},
+        </if>
+        <if test="et.password != null">
+            password = #{et.password,jdbcType=VARCHAR},
+        </if>
+        <if test="et.salt != null">
+            salt = #{et.salt,jdbcType=VARCHAR},
+        </if>
+        <if test="et.nickName != null">
+            nick_name = #{et.nickName,jdbcType=VARCHAR},
+        </if>
+        <if test="et.realName != null">
+            real_name = #{et.realName,jdbcType=VARCHAR},
+        </if>
+        <if test="et.phone != null">
+            phone = #{et.phone,jdbcType=VARCHAR},
+        </if>
+        <if test="et.avatar != null">
+            avatar = #{et.avatar,jdbcType=VARCHAR},
+        </if>
+        <if test="et.createTime != null">
+            create_time = #{et.createTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="et.state != null">
+            state = #{et.state,jdbcType=BIT},
+        </if>
+      </set>
+      where id = #{et.id,jdbcType=BIGINT}
+    </update>
+
+    <insert id="insertBatch" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+      insert into `user`
+      (id, username, password, salt, nick_name, real_name, phone, avatar, create_time, state)
+      values
+      <foreach collection="entityList" item="item" separator=",">
+      (#{item.id,jdbcType=BIGINT}, #{item.username,jdbcType=VARCHAR}, #{item.password,jdbcType=VARCHAR}, #{item.salt,jdbcType=VARCHAR}, #{item.nickName,jdbcType=VARCHAR}, #{item.realName,jdbcType=VARCHAR}, #{item.phone,jdbcType=VARCHAR}, #{item.avatar,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.state,jdbcType=BIT})
+      </foreach>
+    </insert>
+
+    <update id="updateBatchById" parameterType="java.util.Collection">
+      update `user`
+      <trim prefix="set" suffixOverrides=",">
+        <trim prefix="username = case" suffix="end,">
+          <foreach collection="entityList" index="index" item="item">
+            <if test="item.username != null">
+                when id = #{item.id,jdbcType=BIGINT} then #{item.username,jdbcType=VARCHAR}
+            </if>
+          </foreach>
+        </trim>
+        <trim prefix="password = case" suffix="end,">
+          <foreach collection="entityList" index="index" item="item">
+            <if test="item.password != null">
+                when id = #{item.id,jdbcType=BIGINT} then #{item.password,jdbcType=VARCHAR}
+            </if>
+          </foreach>
+        </trim>
+        <trim prefix="salt = case" suffix="end,">
+          <foreach collection="entityList" index="index" item="item">
+            <if test="item.salt != null">
+                when id = #{item.id,jdbcType=BIGINT} then #{item.salt,jdbcType=VARCHAR}
+            </if>
+          </foreach>
+        </trim>
+        <trim prefix="nick_name = case" suffix="end,">
+          <foreach collection="entityList" index="index" item="item">
+            <if test="item.nickName != null">
+                when id = #{item.id,jdbcType=BIGINT} then #{item.nickName,jdbcType=VARCHAR}
+            </if>
+          </foreach>
+        </trim>
+        <trim prefix="real_name = case" suffix="end,">
+          <foreach collection="entityList" index="index" item="item">
+            <if test="item.realName != null">
+                when id = #{item.id,jdbcType=BIGINT} then #{item.realName,jdbcType=VARCHAR}
+            </if>
+          </foreach>
+        </trim>
+        <trim prefix="phone = case" suffix="end,">
+          <foreach collection="entityList" index="index" item="item">
+            <if test="item.phone != null">
+                when id = #{item.id,jdbcType=BIGINT} then #{item.phone,jdbcType=VARCHAR}
+            </if>
+          </foreach>
+        </trim>
+        <trim prefix="avatar = case" suffix="end,">
+          <foreach collection="entityList" index="index" item="item">
+            <if test="item.avatar != null">
+                when id = #{item.id,jdbcType=BIGINT} then #{item.avatar,jdbcType=VARCHAR}
+            </if>
+          </foreach>
+        </trim>
+        <trim prefix="create_time = case" suffix="end,">
+          <foreach collection="entityList" index="index" item="item">
+            <if test="item.createTime != null">
+                when id = #{item.id,jdbcType=BIGINT} then #{item.createTime,jdbcType=TIMESTAMP}
+            </if>
+          </foreach>
+        </trim>
+        <trim prefix="state = case" suffix="end,">
+          <foreach collection="entityList" index="index" item="item">
+            <if test="item.state != null">
+                when id = #{item.id,jdbcType=BIGINT} then #{item.state,jdbcType=BIT}
+            </if>
+          </foreach>
+        </trim>
+      </trim>
+      where id in
+      <foreach close=")" collection="entityList" item="item" open="(" separator=", ">
+        #{item.id,jdbcType=BIGINT}
+      </foreach>
+    </update>
+
+    <sql id="Dynamic_Column">
+        <choose>
+            <when test="columns != null and columns.length != 0">
+                <foreach collection="columns" item="item" separator=",">
+                    ${item}
+                </foreach>
+            </when>
+            <otherwise>
+                <include refid="Base_Column_List"/>
+            </otherwise>
+        </choose>
+    </sql>
+
+    <select id="getById" parameterType="Long" resultMap="BaseResultMap">
+        select <include refid="Dynamic_Column" />
+        from `user`
+        where id = #{id,jdbcType=BIGINT}
+        and state = 0
+    </select>
+
+    <select id="listByIds" resultMap="BaseResultMap">
+        select <include refid="Dynamic_Column" />
+        from `user`
+        where id in
+        <foreach collection="ids" close=")" item="item" open="(" separator=",">
+            #{item,jdbcType=BIGINT}
+        </foreach>
+        and state = 0
+    </select>
+
+    <update id="deleteById" parameterType="Long">
+        update `user`
+        set state = 1
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="deleteBatchByIds">
+        update `user`
+        set state = 1 where id in
+        <foreach collection="ids" separator="," item="item" close=")" open="(">
+            #{item,jdbcType=BIGINT}
+        </foreach>
+        and state = 0
+    </update>
+
+</mapper>

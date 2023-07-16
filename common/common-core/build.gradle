@@ -1,0 +1,20 @@
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-autoconfigure'
+    implementation 'org.springframework.data:spring-data-redis'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'jakarta.servlet:jakarta.servlet-api'
+    implementation 'jakarta.validation:jakarta.validation-api'
+    compileOnly 'org.springframework:spring-webmvc'
+    api 'ch.qos.logback:logback-classic'
+    api('com.baomidou:mybatis-plus-boot-starter') {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-autoconfigure'
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-jdbc'
+    }
+
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}

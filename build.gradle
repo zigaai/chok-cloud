@@ -1,0 +1,58 @@
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
+
+plugins {
+    id 'org.springframework.boot' version '3.1.1'
+    id "io.spring.dependency-management" version "1.1.0"
+    id 'com.bmuschko.docker-spring-boot-application' version '9.3.1' apply false
+}
+
+allprojects {
+    group = 'com.zigaai'
+    version = '0.0.1'
+
+    repositories {
+        mavenLocal()
+        maven { url 'https://mirrors.cloud.tencent.com/nexus/repository/maven-public/' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        mavenCentral()
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        options.encoding = "UTF-8"
+    }
+}
+
+subprojects {
+
+    apply plugin: 'java'
+    apply plugin: 'java-library'
+    apply plugin: 'io.spring.dependency-management'
+
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+
+    dependencyManagement {
+        imports {
+            mavenBom SpringBootPlugin.BOM_COORDINATES
+            mavenBom 'org.springframework.cloud:spring-cloud-dependencies:2022.0.3'
+            mavenBom 'com.alibaba.cloud:spring-cloud-alibaba-dependencies:2022.0.0.0-RC2'
+            mavenBom 'org.springframework.cloud:spring-cloud-kubernetes-dependencies:3.0.3'
+        }
+
+        dependencies {
+            dependency 'org.springframework.security:spring-security-oauth2-authorization-server:1.1.1'
+            dependency 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.2'
+            dependency 'com.baomidou:mybatis-plus-boot-starter:3.5.3.1'
+            dependency 'mysql:mysql-connector-java:8.0.33'
+        }
+    }
+
+    dependencies {
+        compileOnly "org.projectlombok:lombok"
+        annotationProcessor "org.projectlombok:lombok"
+
+        implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+        annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+    }
+
+}

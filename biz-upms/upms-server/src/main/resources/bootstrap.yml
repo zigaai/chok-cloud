@@ -1,0 +1,51 @@
+server:
+  port: 9100
+  tomcat:
+    threads:
+      max: {MAX_THREAD:800}
+      min-spare: {MIN_THREAD:100}
+spring:
+  application:
+    name: upms-service
+  profiles:
+    active: dev
+  main:
+    cloud-platform: KUBERNETES
+  cloud:
+    kubernetes:
+      client:
+        namespace: app
+      discovery:
+        namespaces:
+          - app
+      config:
+        sources:
+          - name: ${spring.application.name}-cm
+    openfeign:
+      okhttp:
+        enabled: true
+      httpclient:
+        enabled: false
+      client:
+        config:
+          default:
+            connectTimeout: 5000
+            readTimeout: 5000
+      compression:
+        request:
+          enabled: true
+        response:
+          enabled: true
+
+feign:
+  sentinel:
+    enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - info
+          - refresh
