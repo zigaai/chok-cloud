@@ -18,4 +18,21 @@ public class CustomSecurityProperties {
      */
     private List<String> ignoreUrls;
 
+
+    /**
+     * token 配置
+     */
+    private Token token;
+
+    @Getter
+    @Setter
+    @ToString
+    public static class Token {
+
+        /**
+         * 登录token过期时间
+         */
+        private Long timeToLive = 3600L;
+
+    }
 }

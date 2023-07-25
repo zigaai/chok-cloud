@@ -1,4 +1,4 @@
-package com.zigaai.upms.model.enumeration;
+package com.zigaai.common.core.model.enumeration;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

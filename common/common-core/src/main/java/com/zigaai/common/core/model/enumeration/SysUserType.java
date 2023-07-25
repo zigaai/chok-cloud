@@ -1,4 +1,4 @@
-package com.zigaai.upms.model.enumeration;
+package com.zigaai.common.core.model.enumeration;
 
 import com.zigaai.common.core.infra.exception.BizIllegalArgumentException;
 import lombok.Getter;

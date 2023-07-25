@@ -1,6 +1,6 @@
 package com.zigaai.upms.security.processor.usernamepassword;
 
-import com.zigaai.upms.model.enumeration.SysUserType;
+import com.zigaai.common.core.model.enumeration.SysUserType;
 import lombok.Getter;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;

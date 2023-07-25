@@ -2,7 +2,7 @@ package com.zigaai.upms.mapper;
 
 import com.zigaai.upms.model.entity.Role;
 import com.zigaai.common.core.infra.mapper.MapperSupport;
-import com.zigaai.upms.model.enumeration.SysUserType;
+import com.zigaai.common.core.model.enumeration.SysUserType;
 import com.zigaai.upms.model.vo.RoleVO;
 import com.zigaai.upms.model.dto.query.RoleQuery;
 import org.apache.ibatis.annotations.Param;

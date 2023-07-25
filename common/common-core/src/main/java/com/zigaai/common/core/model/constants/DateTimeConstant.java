@@ -10,6 +10,8 @@ public final class DateTimeConstant {
 
     public static final ZoneId UTC_ZONE_ID = ZoneId.of("UTC");
 
+    public static final ZoneId SHANGHAI_ZONE_ID = ZoneId.of("Asia/Shanghai");
+
     public static final DateTimeFormatter YYYY_MM_DD = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public static final DateTimeFormatter YYYY_MM_DD_HH_MM_SS = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");

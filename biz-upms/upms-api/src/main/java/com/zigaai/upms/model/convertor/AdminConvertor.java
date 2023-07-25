@@ -4,7 +4,7 @@ import com.zigaai.upms.model.dto.command.AdminDTO;
 import com.zigaai.upms.model.entity.Admin;
 import com.zigaai.upms.model.entity.PagePermission;
 import com.zigaai.upms.model.entity.Role;
-import com.zigaai.upms.model.enumeration.SysUserType;
+import com.zigaai.common.core.model.enumeration.SysUserType;
 import com.zigaai.upms.model.security.SystemUser;
 import com.zigaai.upms.model.vo.AdminVO;
 import org.mapstruct.Mapper;

@@ -10,11 +10,24 @@ import java.io.Serializable;
 @Getter
 @ToString
 @RequiredArgsConstructor
-public class TokenVO implements Serializable {
+public class UPMSToken implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
+    /**
+     * token 值
+     */
     private final String token;
+
+    /**
+     * 签发时间
+     */
+    private final Long iat;
+
+    /**
+     * 过期时间
+     */
+    private final Long exp;
 
 }

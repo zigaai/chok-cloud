@@ -2,7 +2,7 @@ package com.zigaai.upms.config;
 
 import com.zigaai.common.core.infra.strategy.StrategyFactory;
 import com.zigaai.upms.model.enumeration.LoginType;
-import com.zigaai.upms.model.enumeration.SysUserType;
+import com.zigaai.common.core.model.enumeration.SysUserType;
 import com.zigaai.upms.security.DaoMultiAuthenticationProvider;
 import com.zigaai.upms.security.filter.LoginAuthenticationFilter;
 import com.zigaai.upms.security.handler.DefaultAccessDeniedHandler;
@@ -68,7 +68,7 @@ public class SecurityConfig {
     }
 
     private LoginAuthenticationFilter buildLoginFilter(AuthenticationManager authenticationManager) {
-        return new LoginAuthenticationFilter(loginTypeLoginProcessorStrategy, authenticationManager, jackson2HttpMessageConverter);
+        return new LoginAuthenticationFilter(loginTypeLoginProcessorStrategy, authenticationManager, securityProperties, jackson2HttpMessageConverter);
     }
 
     private AuthenticationManager buildAuthenticationManager() {

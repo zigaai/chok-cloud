@@ -2,7 +2,7 @@ package com.zigaai.upms.security.processor.usernamepassword;
 
 import com.zigaai.upms.exception.LoginIllegalArgumentException;
 import com.zigaai.upms.model.enumeration.LoginType;
-import com.zigaai.upms.model.enumeration.SysUserType;
+import com.zigaai.common.core.model.enumeration.SysUserType;
 import com.zigaai.upms.security.processor.LoginProcessor;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;

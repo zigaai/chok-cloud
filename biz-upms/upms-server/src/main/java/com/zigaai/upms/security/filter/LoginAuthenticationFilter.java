@@ -1,10 +1,17 @@
 package com.zigaai.upms.security.filter;
 
+import com.nimbusds.jose.JOSEException;
 import com.zigaai.common.core.infra.strategy.StrategyFactory;
+import com.zigaai.common.core.model.dto.PayloadDTO;
 import com.zigaai.common.core.model.dto.ResponseData;
+import com.zigaai.common.core.model.vo.UPMSToken;
+import com.zigaai.common.core.utils.JWTUtil;
 import com.zigaai.upms.exception.LoginIllegalArgumentException;
+import com.zigaai.upms.model.convertor.SystemUserConvertor;
 import com.zigaai.upms.model.enumeration.LoginType;
+import com.zigaai.upms.model.security.SystemUser;
 import com.zigaai.upms.security.processor.LoginProcessor;
+import com.zigaai.upms.security.properties.CustomSecurityProperties;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,12 +43,16 @@ public class LoginAuthenticationFilter extends AbstractAuthenticationProcessingF
 
     private final StrategyFactory<LoginType, LoginProcessor> loginTypeLoginProcessorStrategy;
 
+    private final CustomSecurityProperties securityProperties;
+
     public LoginAuthenticationFilter(StrategyFactory<LoginType, LoginProcessor> loginTypeLoginProcessorStrategy,
                                      AuthenticationManager authenticationManager,
+                                     CustomSecurityProperties securityProperties,
                                      MappingJackson2HttpMessageConverter jackson2HttpMessageConverter) {
         super(LOGIN_REQUEST_MATCHER);
         super.setAuthenticationManager(authenticationManager);
         this.loginTypeLoginProcessorStrategy = loginTypeLoginProcessorStrategy;
+        this.securityProperties = securityProperties;
         this.jackson2HttpMessageConverter = jackson2HttpMessageConverter;
     }
 
@@ -56,7 +67,19 @@ public class LoginAuthenticationFilter extends AbstractAuthenticationProcessingF
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         // super.successfulAuthentication(request, response, chain, authResult);
-        jackson2HttpMessageConverter.write(ResponseData.success("登录成功"), MediaType.APPLICATION_JSON, new ServletServerHttpResponse(response));
+        log.info("authResult: {}", authResult);
+        log.info("securityProperties: {}", securityProperties);
+        SystemUser systemUser = (SystemUser) authResult.getPrincipal();
+        PayloadDTO payloadDTO = SystemUserConvertor.INSTANCE.toPayloadDTO(systemUser, securityProperties.getToken().getTimeToLive());
+        UPMSToken upmsToken;
+        try {
+            upmsToken = JWTUtil.generateToken(payloadDTO, systemUser.getSalt());
+        } catch (JOSEException e) {
+            log.error("生成token错误: ", e);
+            jackson2HttpMessageConverter.write(ResponseData.unknownError("生成token错误"), MediaType.APPLICATION_JSON, new ServletServerHttpResponse(response));
+            return;
+        }
+        jackson2HttpMessageConverter.write(ResponseData.success("登录成功", upmsToken), MediaType.APPLICATION_JSON, new ServletServerHttpResponse(response));
     }
 
     @Override

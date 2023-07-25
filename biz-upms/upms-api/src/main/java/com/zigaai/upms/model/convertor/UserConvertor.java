@@ -2,7 +2,7 @@ package com.zigaai.upms.model.convertor;
 
 import com.zigaai.upms.model.entity.PagePermission;
 import com.zigaai.upms.model.entity.Role;
-import com.zigaai.upms.model.enumeration.SysUserType;
+import com.zigaai.common.core.model.enumeration.SysUserType;
 import com.zigaai.upms.model.security.SystemUser;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

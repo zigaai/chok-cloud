@@ -1,7 +1,7 @@
 package com.zigaai.upms.security;
 
 import com.zigaai.common.core.infra.strategy.StrategyFactory;
-import com.zigaai.upms.model.enumeration.SysUserType;
+import com.zigaai.common.core.model.enumeration.SysUserType;
 import com.zigaai.upms.model.security.SystemUser;
 import com.zigaai.upms.security.processor.usernamepassword.SysUsernamePasswordToken;
 import com.zigaai.upms.security.userdetails.service.MultiAuthenticationUserDetailsService;

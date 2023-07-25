@@ -6,7 +6,7 @@ import com.zigaai.upms.mapper.RoleMapper;
 import com.zigaai.upms.model.entity.Admin;
 import com.zigaai.upms.model.entity.PagePermission;
 import com.zigaai.upms.model.entity.Role;
-import com.zigaai.upms.model.enumeration.SysUserType;
+import com.zigaai.common.core.model.enumeration.SysUserType;
 import com.zigaai.upms.model.security.SystemUser;
 import com.zigaai.upms.security.userdetails.service.MultiAuthenticationUserDetailsService;
 import lombok.RequiredArgsConstructor;

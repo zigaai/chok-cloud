@@ -2,17 +2,14 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://192.168.101.220:3306/chok_authorization?characterEncoding=utf8&useSSL=true&rewriteBatchedStatements=true
+    url: jdbc:mysql://192.168.100.100:3306/chok_authorization?characterEncoding=utf8&useSSL=true&rewriteBatchedStatements=true
     username: root
     password: 741852963mysql
-  #    url: jdbc:mysql://192.168.100.137:3306/chok_authorization?characterEncoding=utf8&useSSL=true&rewriteBatchedStatements=true
-  #    username: root
-  #    password: 123456
   data:
     redis:
       client-type: lettuce
       database: 1
-      host: 192.168.101.220
+      host: 192.168.100.100
       # host: 192.168.100.137
       port: 6379
       password: 741852963redis

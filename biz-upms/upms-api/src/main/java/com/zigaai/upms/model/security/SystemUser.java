@@ -1,5 +1,6 @@
 package com.zigaai.upms.model.security;
 
+import com.zigaai.common.core.model.enumeration.SysUserType;
 import com.zigaai.common.core.model.enumeration.TbStateEnum;
 import com.zigaai.upms.model.convertor.AdminConvertor;
 import com.zigaai.upms.model.convertor.UserConvertor;
@@ -7,7 +8,6 @@ import com.zigaai.upms.model.entity.Admin;
 import com.zigaai.upms.model.entity.PagePermission;
 import com.zigaai.upms.model.entity.Role;
 import com.zigaai.upms.model.entity.User;
-import com.zigaai.upms.model.enumeration.SysUserType;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;

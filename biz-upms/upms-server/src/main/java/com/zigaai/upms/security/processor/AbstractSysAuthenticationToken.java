@@ -1,6 +1,6 @@
 // package com.zigaai.upms.security.processor;
 //
-// import com.zigaai.upms.model.enumeration.SysUserType;
+// import com.zigaai.common.core.model.enumeration.SysUserType;
 // import lombok.Getter;
 // import lombok.Setter;
 // import lombok.ToString;

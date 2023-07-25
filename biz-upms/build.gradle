@@ -1,5 +1,6 @@
 subprojects {
     dependencies {
+        implementation 'com.nimbusds:nimbus-jose-jwt'
         implementation project(":common:common-core")
     }
 }

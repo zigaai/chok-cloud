@@ -2,7 +2,7 @@ package com.zigaai.upms.config;
 
 import com.zigaai.common.core.infra.strategy.StrategyFactory;
 import com.zigaai.upms.model.enumeration.LoginType;
-import com.zigaai.upms.model.enumeration.SysUserType;
+import com.zigaai.common.core.model.enumeration.SysUserType;
 import com.zigaai.upms.security.processor.LoginProcessor;
 import com.zigaai.upms.security.userdetails.service.MultiAuthenticationUserDetailsService;
 import org.springframework.context.annotation.Bean;
