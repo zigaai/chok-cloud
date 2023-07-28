@@ -19,15 +19,15 @@ import java.util.TimeZone;
 public final class JsonUtil {
 
     public static String toJson(Object obj) throws JsonProcessingException {
-        return INNER.INSTANCE.getObjectMapper().writeValueAsString(obj);
+        return INNER.INSTANCE.DEFAULT_OBJECT_MAPPER.writeValueAsString(obj);
     }
 
     public static <T> T readValue(String json, Class<T> clazz) throws JsonProcessingException {
-        return INNER.INSTANCE.getObjectMapper().readValue(json, clazz);
+        return INNER.INSTANCE.DEFAULT_OBJECT_MAPPER.readValue(json, clazz);
     }
 
     public static ObjectMapper getInstance() {
-        return INNER.INSTANCE.getObjectMapper();
+        return INNER.INSTANCE.DEFAULT_OBJECT_MAPPER;
     }
 
     private enum INNER {
@@ -58,10 +58,6 @@ public final class JsonUtil {
             DEFAULT_OBJECT_MAPPER.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
             // 设置时区
             DEFAULT_OBJECT_MAPPER.setTimeZone(TimeZone.getDefault());
-        }
-
-        public ObjectMapper getObjectMapper() {
-            return DEFAULT_OBJECT_MAPPER;
         }
 
     }

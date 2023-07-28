@@ -22,4 +22,6 @@ public interface AdminMapper extends MapperSupport<Admin> {
 
     Admin getByUsername(String username);
 
+    String getSaltByUsername(String username);
+
 }

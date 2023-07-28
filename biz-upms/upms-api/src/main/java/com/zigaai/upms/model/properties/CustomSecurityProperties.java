@@ -1,4 +1,4 @@
-package com.zigaai.upms.security.properties;
+package com.zigaai.upms.model.properties;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -34,5 +34,9 @@ public class CustomSecurityProperties {
          */
         private Long timeToLive = 3600L;
 
+        /**
+         * token前缀
+         */
+        private String prefix = "Bearer ";
     }
 }

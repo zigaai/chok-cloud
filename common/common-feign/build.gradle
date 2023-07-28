@@ -3,6 +3,7 @@ dependencies {
     api 'io.github.openfeign:feign-okhttp'
     api 'com.alibaba.cloud:spring-cloud-starter-alibaba-sentinel'
     compileOnly 'org.springframework:spring-webmvc'
+    implementation 'jakarta.servlet:jakarta.servlet-api'
     implementation project(":common:common-core")
 
     testImplementation platform('org.junit:junit-bom:5.9.1')

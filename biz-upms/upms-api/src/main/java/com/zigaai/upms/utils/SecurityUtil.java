@@ -1,17 +1,34 @@
-package com.zigaai.upms.model.utils;
+package com.zigaai.upms.utils;
 
 import com.zigaai.upms.model.entity.PagePermission;
 import com.zigaai.upms.model.entity.Role;
-import lombok.experimental.UtilityClass;
+import com.zigaai.upms.model.security.SystemUser;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.CollectionUtils;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@UtilityClass
 public final class SecurityUtil {
+
+    private SecurityUtil() {
+    }
+
+    public static SystemUser currentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null) {
+            throw new AuthenticationCredentialsNotFoundException("用户未登录, 请重新登录");
+        }
+        Object principal = authentication.getPrincipal();
+        if (!(principal instanceof SystemUser)) {
+            throw new AuthenticationCredentialsNotFoundException("用户未登录或登录已过期, 请重新登录");
+        }
+        return ((SystemUser) principal);
+    }
 
     public static Set<SimpleGrantedAuthority> toAuthorities(List<Role> roleList, List<PagePermission> permissionList) {
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
@@ -27,5 +44,4 @@ public final class SecurityUtil {
         }
         return authorities;
     }
-
 }

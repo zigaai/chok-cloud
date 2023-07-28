@@ -11,7 +11,7 @@ import com.zigaai.upms.model.convertor.SystemUserConvertor;
 import com.zigaai.upms.model.enumeration.LoginType;
 import com.zigaai.upms.model.security.SystemUser;
 import com.zigaai.upms.security.processor.LoginProcessor;
-import com.zigaai.upms.security.properties.CustomSecurityProperties;
+import com.zigaai.upms.model.properties.CustomSecurityProperties;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

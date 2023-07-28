@@ -1,14 +1,15 @@
 package com.zigaai.upms.config;
 
 import com.zigaai.common.core.infra.strategy.StrategyFactory;
-import com.zigaai.upms.model.enumeration.LoginType;
 import com.zigaai.common.core.model.enumeration.SysUserType;
+import com.zigaai.upms.model.properties.CustomSecurityProperties;
+import com.zigaai.upms.model.enumeration.LoginType;
 import com.zigaai.upms.security.DaoMultiAuthenticationProvider;
+import com.zigaai.upms.security.filter.JwtFilter;
 import com.zigaai.upms.security.filter.LoginAuthenticationFilter;
 import com.zigaai.upms.security.handler.DefaultAccessDeniedHandler;
 import com.zigaai.upms.security.handler.DefaultAuthenticationEntryPoint;
 import com.zigaai.upms.security.processor.LoginProcessor;
-import com.zigaai.upms.security.properties.CustomSecurityProperties;
 import com.zigaai.upms.security.userdetails.service.MultiAuthenticationUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -27,8 +28,8 @@ import org.springframework.security.web.header.HeaderWriterFilter;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
-@EnableConfigurationProperties(CustomSecurityProperties.class)
 @RequiredArgsConstructor
+@EnableConfigurationProperties(CustomSecurityProperties.class)
 public class SecurityConfig {
 
     private final MappingJackson2HttpMessageConverter jackson2HttpMessageConverter;
@@ -60,15 +61,21 @@ public class SecurityConfig {
                 .exceptionHandling(config -> config
                         .authenticationEntryPoint(defaultAuthenticationEntryPoint)
                         .accessDeniedHandler(defaultAccessDeniedHandler))
-                // .authenticationManager(authenticationManager)
+        // .authenticationManager(authenticationManager)
         ;
         LoginAuthenticationFilter loginAuthenticationFilter = buildLoginFilter(authenticationManager);
-        http.addFilterAfter(loginAuthenticationFilter, HeaderWriterFilter.class);
+        JwtFilter jwtFilter = buildJwtFilter();
+        http.addFilterAfter(loginAuthenticationFilter, HeaderWriterFilter.class)
+                .addFilterBefore(jwtFilter, LoginAuthenticationFilter.class);
         return http.build();
     }
 
     private LoginAuthenticationFilter buildLoginFilter(AuthenticationManager authenticationManager) {
         return new LoginAuthenticationFilter(loginTypeLoginProcessorStrategy, authenticationManager, securityProperties, jackson2HttpMessageConverter);
+    }
+
+    private JwtFilter buildJwtFilter() {
+        return new JwtFilter(securityProperties, userDetailsServiceStrategy);
     }
 
     private AuthenticationManager buildAuthenticationManager() {

@@ -31,7 +31,7 @@ public interface AdminConvertor {
 
     @Mapping(source = "roleList", target = "roleList")
     @Mapping(source = "permissionList", target = "permissionList")
-    @Mapping(target = "authorities", expression = "java(com.zigaai.upms.model.utils.SecurityUtil.toAuthorities(roleList, permissionList))")
+    @Mapping(target = "authorities", expression = "java(com.zigaai.upms.utils.SecurityUtil.toAuthorities(roleList, permissionList))")
     SystemUser toSystemUser(Admin admin, SysUserType userType, List<Role> roleList, List<PagePermission> permissionList);
 
 

@@ -57,4 +57,10 @@
         where username = #{username,jdbcType=VARCHAR}
         and state = 0
     </select>
+
+    <select id="getSaltByUsername" resultType="java.lang.String">
+        select salt from `user`
+        where username = #{username,jdbcType=VARCHAR}
+        and state = 0
+    </select>
 </mapper>

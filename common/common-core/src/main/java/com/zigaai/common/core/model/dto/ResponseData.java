@@ -8,6 +8,7 @@ import lombok.ToString;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -112,4 +113,9 @@ public class ResponseData<T> implements Serializable {
         responseData.data = data;
         return responseData;
     }
+
+    public static <T> boolean isEmpty(ResponseData<T> res) {
+        return res == null || !Objects.equals(ResponseDataStatus.SUCCESS.getValue(), res.getCode()) || res.getData() == null;
+    }
+
 }

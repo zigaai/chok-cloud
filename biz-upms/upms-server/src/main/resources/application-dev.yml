@@ -1,4 +1,6 @@
 spring:
+  application:
+    name: upms-service
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.zaxxer.hikari.HikariDataSource
@@ -39,4 +41,5 @@ security:
     - /wx/authorization/{appId}
     - /wx/authorization/{appId}/callback
   token:
+    prefix: "Bearer "
     time-to-live: 2

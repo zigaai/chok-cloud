@@ -1,4 +1,6 @@
 dependencies {
     implementation 'org.hibernate.validator:hibernate-validator'
     implementation 'org.springframework.security:spring-security-core'
+
+    implementation project(":common:common-feign")
 }

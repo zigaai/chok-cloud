@@ -22,4 +22,6 @@ public interface UserMapper extends MapperSupport<User> {
 
     User getByUsername(String username);
 
+    String getSaltByUsername(String username);
+
 }
