@@ -19,15 +19,22 @@ public final class SecurityUtil {
     }
 
     public static SystemUser currentUser() {
+        return currentUser(true);
+    }
+
+    public static SystemUser currentUser(boolean desensitization) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {
             throw new AuthenticationCredentialsNotFoundException("用户未登录, 请重新登录");
         }
         Object principal = authentication.getPrincipal();
-        if (!(principal instanceof SystemUser)) {
+        if (!(principal instanceof SystemUser currentUser)) {
             throw new AuthenticationCredentialsNotFoundException("用户未登录或登录已过期, 请重新登录");
         }
-        return ((SystemUser) principal);
+        if (desensitization) {
+            return currentUser.desensitization();
+        }
+        return currentUser;
     }
 
     public static Set<SimpleGrantedAuthority> toAuthorities(List<Role> roleList, List<PagePermission> permissionList) {

@@ -1,8 +1,11 @@
 package com.zigaai.authorization.config;
 
 import com.zigaai.authorization.config.keygen.UUIDOAuth2AuthorizationCodeGenerator;
+import com.zigaai.authorization.handler.OAuth2AuthenticationEntryPoint;
 import com.zigaai.authorization.handler.OAuth2AuthorizationErrorHandler;
+import com.zigaai.authorization.security.JwtFilter;
 import com.zigaai.authorization.security.RedisOAuth2AuthorizationService;
+import com.zigaai.upms.feign.SystemUserRemoteService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -23,6 +26,7 @@ import org.springframework.security.oauth2.server.authorization.config.annotatio
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import org.springframework.security.web.context.SecurityContextHolderFilter;
 import org.springframework.security.web.util.matcher.MediaTypeRequestMatcher;
 import org.springframework.util.CollectionUtils;
 
@@ -35,11 +39,15 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AuthorizationServerConfig {
 
+    private final OAuth2AuthenticationEntryPoint oauth2AuthenticationEntryPoint;
+
     private final RegisteredClientRepository registeredClientRepository;
 
     private final RedisOAuth2AuthorizationService redisOAuth2AuthorizationService;
 
     private final OAuth2AuthorizationErrorHandler oauth2AuthorizationErrorHandler;
+
+    private final SystemUserRemoteService systemUserRemoteService;
 
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -63,17 +71,21 @@ public class AuthorizationServerConfig {
         http
                 // Redirect to the login page when not authenticated from the
                 // authorization endpoint
-                .exceptionHandling((exceptions) -> exceptions
+                .exceptionHandling(exceptions -> exceptions
                         .defaultAuthenticationEntryPointFor(
                                 new LoginUrlAuthenticationEntryPoint("/login"),
                                 new MediaTypeRequestMatcher(MediaType.TEXT_HTML)
                         )
+                        .authenticationEntryPoint(oauth2AuthenticationEntryPoint)
                 )
                 // Accept access tokens for User Info and/or Client Registration
                 .oauth2ResourceServer((resourceServer) -> resourceServer
                         .jwt(Customizer.withDefaults()))
                 // .csrf(csrf -> csrf.ignoringRequestMatchers(endpointsMatcher));
-                .csrf(AbstractHttpConfigurer::disable);
+                .csrf(AbstractHttpConfigurer::disable)
+                .logout(AbstractHttpConfigurer::disable)
+                .formLogin(AbstractHttpConfigurer::disable);
+        http.addFilterAfter(new JwtFilter(systemUserRemoteService), SecurityContextHolderFilter.class);
         return http.build();
     }
 

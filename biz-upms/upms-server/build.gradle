@@ -21,6 +21,7 @@ dependencies {
 //    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 
     implementation project(":biz-upms:upms-api")
+//    implementation project(":common:common-feign")
 
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'

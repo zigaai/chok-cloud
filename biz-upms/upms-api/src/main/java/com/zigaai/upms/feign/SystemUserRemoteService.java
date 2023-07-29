@@ -1,7 +1,7 @@
 package com.zigaai.upms.feign;
 
 import com.zigaai.common.core.model.dto.ResponseData;
-import com.zigaai.upms.model.security.SystemUser;
+import com.zigaai.upms.model.vo.SystemUserVO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -11,6 +11,6 @@ public interface SystemUserRemoteService {
     String PREFIX = "/authorization";
 
     @GetMapping(PREFIX + "/info")
-    ResponseData<SystemUser> getInfo();
+    ResponseData<SystemUserVO> getInfo();
 
 }

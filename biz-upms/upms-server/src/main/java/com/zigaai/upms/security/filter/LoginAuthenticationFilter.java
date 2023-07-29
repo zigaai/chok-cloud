@@ -4,6 +4,7 @@ import com.nimbusds.jose.JOSEException;
 import com.zigaai.common.core.infra.strategy.StrategyFactory;
 import com.zigaai.common.core.model.dto.PayloadDTO;
 import com.zigaai.common.core.model.dto.ResponseData;
+import com.zigaai.common.core.model.enumeration.ResponseDataStatus;
 import com.zigaai.common.core.model.vo.UPMSToken;
 import com.zigaai.common.core.utils.JWTUtil;
 import com.zigaai.upms.exception.LoginIllegalArgumentException;
@@ -66,9 +67,6 @@ public class LoginAuthenticationFilter extends AbstractAuthenticationProcessingF
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        // super.successfulAuthentication(request, response, chain, authResult);
-        log.info("authResult: {}", authResult);
-        log.info("securityProperties: {}", securityProperties);
         SystemUser systemUser = (SystemUser) authResult.getPrincipal();
         PayloadDTO payloadDTO = SystemUserConvertor.INSTANCE.toPayloadDTO(systemUser, securityProperties.getToken().getTimeToLive());
         UPMSToken upmsToken;
@@ -84,8 +82,8 @@ public class LoginAuthenticationFilter extends AbstractAuthenticationProcessingF
 
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        String msg = "未知错误";
+        response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        String msg = ResponseDataStatus.UNKNOWN_ERROR.getMsg();
         if (failed instanceof LoginIllegalArgumentException
                 || failed instanceof BadCredentialsException
                 || failed instanceof UsernameNotFoundException) {

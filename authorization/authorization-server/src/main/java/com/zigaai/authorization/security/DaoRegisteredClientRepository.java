@@ -19,7 +19,6 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.time.Duration;
-import java.time.ZoneId;
 import java.util.Map;
 
 @Slf4j
@@ -87,6 +86,7 @@ public class DaoRegisteredClientRepository implements RegisteredClientRepository
                 }
             });
         }
+        clientSettingsBuilder.requireAuthorizationConsent(false);
         builder.clientSettings(clientSettingsBuilder.build());
         TokenSettings.Builder tokenSettingsBuilder = TokenSettings.builder()
                 .authorizationCodeTimeToLive(Duration.ofMinutes(5))

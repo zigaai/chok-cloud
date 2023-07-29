@@ -9,12 +9,12 @@ spring:
     name: authorization-service
   profiles:
     active: dev
-  main:
-    cloud-platform: KUBERNETES
+#  main:
+#    cloud-platform: KUBERNETES
   cloud:
     kubernetes:
-      client:
-        namespace: app
+#      client:
+#        namespace: app
       discovery:
         namespaces:
           - app

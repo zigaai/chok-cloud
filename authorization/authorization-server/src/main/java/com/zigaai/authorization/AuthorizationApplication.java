@@ -3,9 +3,13 @@ package com.zigaai.authorization;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
-@MapperScan(basePackages = "com.zigaai.authorization.mapper")
+@EnableDiscoveryClient
+@EnableFeignClients(basePackages = "com.zigaai.upms.feign")
 @SpringBootApplication
+@MapperScan(basePackages = "com.zigaai.authorization.mapper")
 public class AuthorizationApplication {
     public static void main(String[] args) {
         SpringApplication.run(AuthorizationApplication.class, args);

@@ -11,6 +11,7 @@ import com.zigaai.common.core.model.constants.SystemConstant;
 import com.zigaai.common.core.model.dto.PayloadDTO;
 import com.zigaai.common.core.model.vo.UPMSToken;
 import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.util.Pair;
 import org.springframework.security.rsa.crypto.KeyStoreKeyFactory;
@@ -22,6 +23,7 @@ import java.text.ParseException;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @UtilityClass
 public final class JWTUtil {
 
@@ -72,7 +74,7 @@ public final class JWTUtil {
             throw new JwtInvalidException("token签名不合法！");
         }
         if (payload.getExp() < new Date().getTime()) {
-            throw new JwtExpiredException("token已过期！");
+            throw new JwtExpiredException("token已过期");
         }
     }
 

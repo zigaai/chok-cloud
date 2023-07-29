@@ -1,5 +1,6 @@
 package com.zigaai.upms.model.security;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zigaai.common.core.model.enumeration.SysUserType;
 import com.zigaai.common.core.model.enumeration.TbStateEnum;
 import com.zigaai.upms.model.convertor.AdminConvertor;
@@ -9,7 +10,6 @@ import com.zigaai.upms.model.entity.PagePermission;
 import com.zigaai.upms.model.entity.Role;
 import com.zigaai.upms.model.entity.User;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.SpringSecurityCoreVersion;
@@ -22,25 +22,32 @@ import java.util.List;
 
 @Getter
 @ToString
-@RequiredArgsConstructor
 public class SystemUser implements UserDetails, Serializable {
 
     @Serial
     private static final long serialVersionUID = SpringSecurityCoreVersion.SERIAL_VERSION_UID;
 
+    /**
+     * id
+     */
     private final Long id;
 
+    /**
+     * 用户名
+     */
     private final String username;
 
     /**
      * 密码
      */
-    private final String password;
+    @JsonIgnore
+    private String password;
 
     /**
      * token盐值
      */
-    private final String salt;
+    @JsonIgnore
+    private String salt;
 
     /**
      * 状态: 0: 正常, 1: 删除
@@ -67,12 +74,30 @@ public class SystemUser implements UserDetails, Serializable {
      */
     private final Collection<? extends GrantedAuthority> authorities;
 
+    public SystemUser(Long id, String username, String password, String salt, Byte state, SysUserType userType, List<Role> roleList, List<PagePermission> permissionList, Collection<? extends GrantedAuthority> authorities) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.salt = salt;
+        this.state = state;
+        this.userType = userType;
+        this.roleList = roleList;
+        this.permissionList = permissionList;
+        this.authorities = authorities;
+    }
+
     public static SystemUser of(Admin admin, SysUserType userType, List<Role> roleList, List<PagePermission> permissionList) {
         return AdminConvertor.INSTANCE.toSystemUser(admin, userType, roleList, permissionList);
     }
 
     public static SystemUser of(User user, SysUserType userType, List<Role> roleList, List<PagePermission> permissionList) {
         return UserConvertor.INSTANCE.toSystemUser(user, userType, roleList, permissionList);
+    }
+
+    public SystemUser desensitization() {
+        this.password = null;
+        this.salt = null;
+        return this;
     }
 
     @Override

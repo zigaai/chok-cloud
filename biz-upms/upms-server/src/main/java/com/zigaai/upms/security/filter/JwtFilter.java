@@ -2,12 +2,13 @@ package com.zigaai.upms.security.filter;
 
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWSObject;
+import com.zigaai.common.core.infra.exception.JwtExpiredException;
 import com.zigaai.common.core.infra.strategy.StrategyFactory;
 import com.zigaai.common.core.model.constants.SecurityConstant;
 import com.zigaai.common.core.model.dto.PayloadDTO;
 import com.zigaai.common.core.model.enumeration.SysUserType;
-import com.zigaai.upms.model.properties.CustomSecurityProperties;
 import com.zigaai.common.core.utils.JWTUtil;
+import com.zigaai.upms.model.properties.CustomSecurityProperties;
 import com.zigaai.upms.model.security.SystemUser;
 import com.zigaai.upms.security.userdetails.service.MultiAuthenticationUserDetailsService;
 import jakarta.servlet.FilterChain;
@@ -33,14 +34,12 @@ public class JwtFilter extends OncePerRequestFilter {
 
     private final CustomSecurityProperties securityProperties;
 
-    // private final MappingJackson2HttpMessageConverter jackson2HttpMessageConverter;
-
     private final StrategyFactory<SysUserType, MultiAuthenticationUserDetailsService> userDetailsServiceStrategy;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         String token = request.getHeader(HttpHeaders.AUTHORIZATION);
-        if (StringUtils.isBlank(token)) {
+        if (StringUtils.isBlank(token) || token.startsWith("Basic")) {
             token = request.getHeader(SecurityConstant.PRE_AUTHORIZATION_HEADER);
         }
         String prefix = securityProperties.getToken().getPrefix();
@@ -56,7 +55,7 @@ public class JwtFilter extends OncePerRequestFilter {
             SysUserType userType = SysUserType.getByVal(payload.getUserType());
             systemUser = (SystemUser) userDetailsServiceStrategy.getStrategy(userType).loadUserByUsername(payload.getUsername());
             JWTUtil.check(pair.getFirst(), payload, systemUser.getSalt());
-        } catch (ParseException | JOSEException e) {
+        } catch (ParseException | JOSEException | JwtExpiredException e) {
             log.warn("解析token失败: ", e);
             chain.doFilter(request, response);
             return;
