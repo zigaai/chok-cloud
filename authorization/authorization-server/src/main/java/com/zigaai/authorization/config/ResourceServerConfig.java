@@ -19,6 +19,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -90,7 +91,11 @@ public class ResourceServerConfig {
                 .exceptionHandling(config -> config
                         .authenticationEntryPoint(defaultAuthenticationEntryPoint)
                         .accessDeniedHandler(defaultAccessDeniedHandler))
-        ;
+                .oauth2ResourceServer(resourceServer -> resourceServer
+                        .jwt(Customizer.withDefaults())
+                        .authenticationEntryPoint(defaultAuthenticationEntryPoint)
+                        .accessDeniedHandler(defaultAccessDeniedHandler)
+                );
         LoginAuthenticationFilter loginAuthenticationFilter = buildLoginFilter(authenticationManager);
         http.addFilterAfter(loginAuthenticationFilter, HeaderWriterFilter.class)
                 .addFilterBefore(jwtFilter, LoginAuthenticationFilter.class);

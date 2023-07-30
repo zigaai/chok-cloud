@@ -6,15 +6,19 @@ import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import com.zigaai.authorization.config.keygen.UUIDOAuth2RefreshTokenGenerator;
+import com.zigaai.authorization.model.security.SystemUser;
 import com.zigaai.common.core.model.constants.SystemConstant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.oauth2.core.OAuth2Token;
+import org.springframework.security.oauth2.core.oidc.endpoint.OidcParameterNames;
+import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
+import org.springframework.security.oauth2.server.authorization.OAuth2TokenType;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.server.authorization.token.*;
 import org.springframework.security.rsa.crypto.KeyStoreKeyFactory;
@@ -39,16 +43,13 @@ public class TokenConfig {
     @Bean
     public OAuth2TokenCustomizer<JwtEncodingContext> jwtCustomizer() {
         return context -> {
-            // TODO 待完善
-            // JwtClaimsSet.Builder claims = context.getClaims();
-            // SystemUser systemUser = (SystemUser) context.getPrincipal().getPrincipal();
-            // if (context.getTokenType().equals(OAuth2TokenType.ACCESS_TOKEN)) {
-            //     claims.claim("id", systemUser.getId());
-            // } else if (context.getTokenType().getValue().equals(OidcParameterNames.ID_TOKEN)) {
-            //     // Customize headers/claims for id_token
-            //     claims.claim("id", systemUser.getId())
-            //             .claim("username", systemUser.getUsername());
-            // }
+            JwtClaimsSet.Builder claims = context.getClaims();
+            SystemUser systemUser = (SystemUser) context.getPrincipal().getPrincipal();
+            if (context.getTokenType().equals(OAuth2TokenType.ACCESS_TOKEN)
+                    || context.getTokenType().getValue().equals(OidcParameterNames.ID_TOKEN)) {
+                claims.claim("id", systemUser.getId());
+                claims.claim("userType", systemUser.getUserType().getVal());
+            }
         };
     }
 
@@ -75,5 +76,20 @@ public class TokenConfig {
         JWKSet jwkSet = new JWKSet(rsaKey);
         return new ImmutableJWKSet<>(jwkSet);
     }
+
+    // @Bean
+    // public JwtDecoder jwtDecoderByJwkKeySetUri() {
+    //     // return new SimpleObjectProvider<>(builder -> {
+    //     //     builder.jwtProcessorCustomizer(processor -> {
+    //     //         try {
+    //     //             processor.process("", new SimpleSecurityContext());
+    //     //         } catch (ParseException | BadJOSEException | JOSEException e) {
+    //     //             throw new RuntimeException(e);
+    //     //         }
+    //     //     });
+    //     // });
+    // }
+
+
 
 }

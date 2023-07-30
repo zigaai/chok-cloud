@@ -19,7 +19,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.util.Pair;
-import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -40,10 +39,10 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
-        String token = request.getHeader(HttpHeaders.AUTHORIZATION);
-        if (StringUtils.isBlank(token) || token.startsWith("Basic")) {
-            token = request.getHeader(SecurityConstant.PRE_AUTHORIZATION_HEADER);
-        }
+        // String token = request.getHeader(HttpHeaders.AUTHORIZATION);
+        // if (StringUtils.isBlank(token) || token.startsWith("Basic")) {
+        String token = request.getHeader(SecurityConstant.PRE_AUTHORIZATION_HEADER);
+        // }
         String prefix = securityProperties.getToken().getPrefix();
         if (StringUtils.isBlank(token) || !token.startsWith(prefix)) {
             chain.doFilter(request, response);
