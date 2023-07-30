@@ -1,4 +1,4 @@
-package com.zigaai.authorization.security;
+package com.zigaai.authorization.security.oauth2;
 
 import com.zigaai.authorization.mapper.Oauth2RegisteredClientMapper;
 import com.zigaai.authorization.model.entity.Oauth2RegisteredClient;

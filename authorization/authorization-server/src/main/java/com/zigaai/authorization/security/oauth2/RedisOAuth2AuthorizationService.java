@@ -1,7 +1,7 @@
-package com.zigaai.authorization.security;
+package com.zigaai.authorization.security.oauth2;
 
 import com.zigaai.authorization.model.constants.OAuth2RedisKeys;
-import com.zigaai.authorization.model.dto.PrincipalKey;
+import com.zigaai.authorization.model.dto.command.PrincipalKey;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.oauth2.core.*;

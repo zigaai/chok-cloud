@@ -1,11 +1,11 @@
-package com.zigaai.authorization.handler;
+package com.zigaai.authorization.security.handler;
 
 import com.zigaai.common.core.model.dto.ResponseData;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.http.server.ServletServerHttpResponse;
@@ -15,16 +15,19 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-@Slf4j
+/**
+ * 当访问接口没有权限时，自定义的返回结果
+ */
 @Component
 @RequiredArgsConstructor
-public class OAuth2AccessDeniedHandler implements AccessDeniedHandler {
+public class DefaultAccessDeniedHandler implements AccessDeniedHandler {
 
     private final MappingJackson2HttpMessageConverter jackson2HttpMessageConverter;
 
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException e) throws IOException, ServletException {
-        log.warn("OAuth2.0 无权访问", e);
-        jackson2HttpMessageConverter.write(ResponseData.forbidden("OAuth2 错误: 用户无权访问"), MediaType.APPLICATION_JSON, new ServletServerHttpResponse(response));
+        response.setStatus(HttpStatus.FORBIDDEN.value());
+        jackson2HttpMessageConverter.write(ResponseData.forbidden("当前用户无权访问, 请联系管理员"), MediaType.APPLICATION_JSON, new ServletServerHttpResponse(response));
     }
+
 }

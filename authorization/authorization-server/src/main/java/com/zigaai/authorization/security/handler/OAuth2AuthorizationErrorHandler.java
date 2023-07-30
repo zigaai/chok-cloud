@@ -1,4 +1,4 @@
-package com.zigaai.authorization.handler;
+package com.zigaai.authorization.security.handler;
 
 import com.zigaai.common.core.model.dto.ResponseData;
 import jakarta.servlet.ServletException;
@@ -6,6 +6,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.http.server.ServletServerHttpResponse;
@@ -31,6 +32,7 @@ public class OAuth2AuthorizationErrorHandler implements AuthenticationFailureHan
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         log.warn("OAuth2 认证错误", exception);
+        response.setStatus(HttpStatus.BAD_REQUEST.value());
         if (exception instanceof OAuth2AuthenticationException) {
             OAuth2Error oAuth2Error = ((OAuth2AuthenticationException) exception).getError();
             String msg = StringUtils.hasText(oAuth2Error.getDescription()) ? String.format("%s: %s", oAuth2Error.getDescription(), oAuth2Error.getErrorCode()) : oAuth2Error.getErrorCode();

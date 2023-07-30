@@ -22,7 +22,7 @@ dependencies {
 
     implementation project(":authorization:authorization-api")
     implementation project(":common:common-feign")
-    implementation project(":biz-upms:upms-api")
+//    implementation project(":biz-upms:upms-api")
 
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'

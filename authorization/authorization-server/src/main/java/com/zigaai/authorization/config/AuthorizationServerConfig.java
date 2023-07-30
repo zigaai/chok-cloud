@@ -1,11 +1,10 @@
 package com.zigaai.authorization.config;
 
 import com.zigaai.authorization.config.keygen.UUIDOAuth2AuthorizationCodeGenerator;
-import com.zigaai.authorization.handler.OAuth2AuthenticationEntryPoint;
-import com.zigaai.authorization.handler.OAuth2AuthorizationErrorHandler;
 import com.zigaai.authorization.security.JwtFilter;
-import com.zigaai.authorization.security.RedisOAuth2AuthorizationService;
-import com.zigaai.upms.feign.SystemUserRemoteService;
+import com.zigaai.authorization.security.handler.OAuth2AuthenticationEntryPoint;
+import com.zigaai.authorization.security.handler.OAuth2AuthorizationErrorHandler;
+import com.zigaai.authorization.security.oauth2.RedisOAuth2AuthorizationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -47,7 +46,9 @@ public class AuthorizationServerConfig {
 
     private final OAuth2AuthorizationErrorHandler oauth2AuthorizationErrorHandler;
 
-    private final SystemUserRemoteService systemUserRemoteService;
+    private final JwtFilter jwtFilter;
+
+    // private final SystemUserRemoteService systemUserRemoteService;
 
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -85,7 +86,8 @@ public class AuthorizationServerConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .logout(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable);
-        http.addFilterAfter(new JwtFilter(systemUserRemoteService), SecurityContextHolderFilter.class);
+        // http.addFilterAfter(new JwtFilter(systemUserRemoteService), SecurityContextHolderFilter.class);
+        http.addFilterAfter(jwtFilter, SecurityContextHolderFilter.class);
         return http.build();
     }
 

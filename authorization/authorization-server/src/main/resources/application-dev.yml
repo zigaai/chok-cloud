@@ -29,3 +29,16 @@ logging:
   level:
     org.springframework.security: trace
     com.zigaai.authorization.mapper: debug
+
+security:
+  ignore-urls:
+    - /favicon.ico
+    - /login
+    - /register
+    - /validateCode
+    - /wx/portal/{appId}
+    - /wx/authorization/{appId}
+    - /wx/authorization/{appId}/callback
+  token:
+    prefix: "Bearer "
+    time-to-live: 30000

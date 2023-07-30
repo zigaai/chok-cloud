@@ -1,6 +1,6 @@
 package com.zigaai.authorization.model.constants;
 
-import com.zigaai.authorization.model.dto.PrincipalKey;
+import com.zigaai.authorization.model.dto.command.PrincipalKey;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
 

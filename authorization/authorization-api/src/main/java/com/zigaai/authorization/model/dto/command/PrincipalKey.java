@@ -1,4 +1,4 @@
-package com.zigaai.authorization.model.dto;
+package com.zigaai.authorization.model.dto.command;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
