@@ -1,23 +1,26 @@
 package com.zigaai.authentication.config;
 
+import com.zigaai.authentication.config.keygen.UUIDOAuth2AuthorizationCodeGenerator;
+import com.zigaai.authentication.security.converter.OAuth2AutoRefreshTokenAuthenticationConverter;
 import com.zigaai.authentication.security.filter.JwtFilter;
 import com.zigaai.authentication.security.handler.OAuth2AuthenticationEntryPoint;
 import com.zigaai.authentication.security.handler.OAuth2AuthenticationSuccessHandler;
 import com.zigaai.authentication.security.handler.OAuth2AuthorizationErrorHandler;
 import com.zigaai.authentication.security.oauth2.RedisOAuth2AuthorizationService;
-import com.zigaai.authentication.config.keygen.UUIDOAuth2AuthorizationCodeGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.authorization.InMemoryOAuth2AuthorizationConsentService;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AuthorizationCodeRequestAuthenticationProvider;
 import org.springframework.security.oauth2.server.authorization.authentication.OAuth2AuthorizationConsentAuthenticationProvider;
@@ -51,6 +54,10 @@ public class AuthorizationServerConfig {
 
     private final JwtFilter jwtFilter;
 
+    private final RedisTemplate<String, Object> redisTemplate;
+
+    private final JwtDecoder jwtDecoder;
+
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http)
@@ -72,6 +79,7 @@ public class AuthorizationServerConfig {
                 .tokenEndpoint(tokenEndpoint -> tokenEndpoint
                         .errorResponseHandler(oauth2AuthorizationErrorHandler)
                         .accessTokenResponseHandler(oAuth2AuthenticationSuccessHandler)
+                        .accessTokenRequestConverters(converters -> converters.add(0, buildOAuth2AutoRefreshTokenAuthenticationConverter()))
                 );
         http
                 // Redirect to the login page when not authenticated from the
@@ -111,6 +119,10 @@ public class AuthorizationServerConfig {
                 );
         oAuth2AuthorizationConsentAuthenticationProvider.setAuthorizationCodeGenerator(UUIDOAuth2AuthorizationCodeGenerator);
         return Arrays.asList(oAuth2AuthorizationCodeRequestAuthenticationProvider, oAuth2AuthorizationConsentAuthenticationProvider);
+    }
+
+    private OAuth2AutoRefreshTokenAuthenticationConverter buildOAuth2AutoRefreshTokenAuthenticationConverter() {
+        return new OAuth2AutoRefreshTokenAuthenticationConverter(redisTemplate, jwtDecoder);
     }
 
 }

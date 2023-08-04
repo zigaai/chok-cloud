@@ -1,29 +1,31 @@
 package com.zigaai.authentication.security.converter;
 
 import com.zigaai.authentication.model.constants.OAuth2RedisKeys;
+import com.zigaai.authentication.security.processor.refreshtoken.OAuth2AutoRefreshTokenAuthenticationToken;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.core.AuthorizationGrantType;
-import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.OAuth2Error;
-import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
+import org.springframework.security.oauth2.core.*;
 import org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames;
-import org.springframework.security.oauth2.server.authorization.authentication.OAuth2RefreshTokenAuthenticationToken;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.web.authentication.AuthenticationConverter;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StringUtils;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @RequiredArgsConstructor
 public final class OAuth2AutoRefreshTokenAuthenticationConverter implements AuthenticationConverter {
 
     private final RedisTemplate<String, Object> redisTemplate;
+
+    private final JwtDecoder jwtDecoder;
 
     @Override
     public Authentication convert(HttpServletRequest request) {
@@ -31,6 +33,11 @@ public final class OAuth2AutoRefreshTokenAuthenticationConverter implements Auth
         String accessToken = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (!AuthorizationGrantType.REFRESH_TOKEN.getValue().equals(grantType) || !StringUtils.hasText(accessToken)) {
             return null;
+        }
+        accessToken = accessToken.substring(OAuth2AccessToken.TokenType.BEARER.getValue().length()).trim();
+        Jwt jwt = jwtDecoder.decode(accessToken);
+        if (System.currentTimeMillis() - jwt.getExpiresAt().toEpochMilli() < TimeUnit.MINUTES.toMillis(5)) {
+            System.out.println("aaaaaaa");
         }
         String refreshToken = (String) redisTemplate.opsForValue().get(OAuth2RedisKeys.REL_ACCESS_TOKEN_REFRESH_TOKEN.apply(accessToken));
         if (!StringUtils.hasText(refreshToken)) {
@@ -62,7 +69,7 @@ public final class OAuth2AutoRefreshTokenAuthenticationConverter implements Auth
             }
         });
 
-        return new OAuth2RefreshTokenAuthenticationToken(
+        return new OAuth2AutoRefreshTokenAuthenticationToken(
                 refreshToken, clientPrincipal, requestedScopes, additionalParameters);
     }
 
