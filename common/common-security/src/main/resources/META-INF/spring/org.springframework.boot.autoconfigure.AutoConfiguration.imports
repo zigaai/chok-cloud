@@ -1,0 +1,6 @@
+com.zigaai.common.security.config.SecurityConfig
+com.zigaai.common.security.config.StrategyConfig
+com.zigaai.common.security.service.AdminAuthenticationRemoteService
+com.zigaai.common.security.service.UserAuthenticationRemoteService
+com.zigaai.common.security.handler.DefaultAccessDeniedHandler
+com.zigaai.common.security.handler.DefaultAuthenticationEntryPoint

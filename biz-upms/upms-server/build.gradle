@@ -10,6 +10,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-configuration-processor'
     implementation "org.springframework.boot:spring-boot-starter-web"
     implementation "org.springframework.boot:spring-boot-starter-security"
+    implementation 'org.springframework.security:spring-security-oauth2-jose'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -21,7 +22,9 @@ dependencies {
 //    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
 
 //    implementation project(":biz-upms:upms-api")
-//    implementation project(":common:common-feign")
+    implementation project(":common:common-feign")
+    implementation project(":common:common-security")
+    implementation project(":authentication:authentication-api")
 
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'

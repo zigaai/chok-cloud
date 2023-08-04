@@ -2,11 +2,11 @@
 //
 // import com.nimbusds.jose.JOSEException;
 // import com.zigaai.common.core.infra.strategy.StrategyFactory;
-// import com.zigaai.common.core.model.dto.PayloadDTO;
+// import com.zigaai.common.security.model.dto.PayloadDTO;
 // import com.zigaai.common.core.model.dto.ResponseData;
 // import com.zigaai.common.core.model.enumeration.ResponseDataStatus;
 // import com.zigaai.common.core.model.vo.UPMSToken;
-// import com.zigaai.common.core.utils.JWTUtil;
+// import com.zigaai.common.security.utils.JWTUtil;
 // import com.zigaai.upms.exception.LoginIllegalArgumentException;
 // import com.zigaai.upms.model.convertor.SystemUserConvertor;
 // import com.zigaai.upms.model.enumeration.LoginType;

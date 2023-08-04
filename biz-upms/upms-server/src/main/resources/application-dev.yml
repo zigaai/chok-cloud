@@ -17,15 +17,20 @@ spring:
       lettuce:
         pool:
           enabled: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://127.0.0.1:9000/oauth2/jwks
 
-mybatis:
-  mapper-locations:
-    - classpath:mapper/*/*.xml
-    - classpath:mapper/*.xml
-mybatis-plus:
-  mapper-locations:
-    - classpath:mapper/*/*.xml
-    - classpath:mapper/*.xml
+#mybatis:
+#  mapper-locations:
+#    - classpath:mapper/*/*.xml
+#    - classpath:mapper/*.xml
+#mybatis-plus:
+#  mapper-locations:
+#    - classpath:mapper/*/*.xml
+#    - classpath:mapper/*.xml
 logging:
   level:
     org.springframework.security: trace

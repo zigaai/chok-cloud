@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zigaai.authentication.mapper.PagePermissionMapper">
+    <!--@Table `page_permission`-->
+    <resultMap id="BaseResultMap" type="com.zigaai.authentication.model.entity.PagePermission">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="title" jdbcType="VARCHAR" property="title" />
+        <result column="icon" jdbcType="VARCHAR" property="icon" />
+        <result column="permission_type" jdbcType="TINYINT" property="permissionType" />
+        <result column="path" jdbcType="VARCHAR" property="path" />
+        <result column="redirect" jdbcType="VARCHAR" property="redirect" />
+        <result column="component" jdbcType="VARCHAR" property="component" />
+        <result column="affix" jdbcType="BIT" property="affix" />
+        <result column="sort" jdbcType="INTEGER" property="sort" />
+        <result column="hidden" jdbcType="BIT" property="hidden" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="state" jdbcType="BIT" property="state" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, parent_id, `name`, title, icon, permission_type, `path`, redirect, `component`, affix, sort, hidden, create_time, state
+    </sql>
+
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.zigaai.authentication.model.entity.PagePermission" useGeneratedKeys="true">
+        insert into `page_permission`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="parentId != null">
+                parent_id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="icon != null">
+                icon,
+            </if>
+            <if test="permissionType != null">
+                permission_type,
+            </if>
+            <if test="path != null">
+                path,
+            </if>
+            <if test="redirect != null">
+                redirect,
+            </if>
+            <if test="component != null">
+                component,
+            </if>
+            <if test="affix != null">
+                affix,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+            <if test="hidden != null">
+                hidden,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="parentId != null">
+                #{parentId,jdbcType=BIGINT},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="title != null">
+                #{title,jdbcType=VARCHAR},
+            </if>
+            <if test="icon != null">
+                #{icon,jdbcType=VARCHAR},
+            </if>
+            <if test="permissionType != null">
+                #{permissionType,jdbcType=TINYINT},
+            </if>
+            <if test="path != null">
+                #{path,jdbcType=VARCHAR},
+            </if>
+            <if test="redirect != null">
+                #{redirect,jdbcType=VARCHAR},
+            </if>
+            <if test="component != null">
+                #{component,jdbcType=VARCHAR},
+            </if>
+            <if test="affix != null">
+                #{affix,jdbcType=BIT},
+            </if>
+            <if test="sort != null">
+                #{sort,jdbcType=INTEGER},
+            </if>
+            <if test="hidden != null">
+                #{hidden,jdbcType=BIT},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=BIT},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.zigaai.authentication.model.entity.PagePermission">
+      update `page_permission`
+      <set>
+        <if test="et.parentId != null">
+            parent_id = #{et.parentId,jdbcType=BIGINT},
+        </if>
+        <if test="et.name != null">
+            name = #{et.name,jdbcType=VARCHAR},
+        </if>
+        <if test="et.title != null">
+            title = #{et.title,jdbcType=VARCHAR},
+        </if>
+        <if test="et.icon != null">
+            icon = #{et.icon,jdbcType=VARCHAR},
+        </if>
+        <if test="et.permissionType != null">
+            permission_type = #{et.permissionType,jdbcType=TINYINT},
+        </if>
+        <if test="et.path != null">
+            path = #{et.path,jdbcType=VARCHAR},
+        </if>
+        <if test="et.redirect != null">
+            redirect = #{et.redirect,jdbcType=VARCHAR},
+        </if>
+        <if test="et.component != null">
+            component = #{et.component,jdbcType=VARCHAR},
+        </if>
+        <if test="et.affix != null">
+            affix = #{et.affix,jdbcType=BIT},
+        </if>
+        <if test="et.sort != null">
+            sort = #{et.sort,jdbcType=INTEGER},
+        </if>
+        <if test="et.hidden != null">
+            hidden = #{et.hidden,jdbcType=BIT},
+        </if>
+        <if test="et.createTime != null">
+            create_time = #{et.createTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="et.state != null">
+            state = #{et.state,jdbcType=BIT},
+        </if>
+      </set>
+      where id = #{et.id,jdbcType=BIGINT}
+    </update>
+
+    <insert id="insertBatch" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+      insert into `page_permission`
+      (id, parent_id, name, title, icon, permission_type, path, redirect, component, affix, sort, hidden, create_time, state)
+      values
+      <foreach collection="entityList" item="item" separator=",">
+      (#{item.id,jdbcType=BIGINT}, #{item.parentId,jdbcType=BIGINT}, #{item.name,jdbcType=VARCHAR}, #{item.title,jdbcType=VARCHAR}, #{item.icon,jdbcType=VARCHAR}, #{item.permissionType,jdbcType=TINYINT}, #{item.path,jdbcType=VARCHAR}, #{item.redirect,jdbcType=VARCHAR}, #{item.component,jdbcType=VARCHAR}, #{item.affix,jdbcType=BIT}, #{item.sort,jdbcType=INTEGER}, #{item.hidden,jdbcType=BIT}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.state,jdbcType=BIT})
+      </foreach>
+    </insert>
+
+    <update id="updateBatchById" parameterType="java.util.Collection">
+      update `page_permission`
+      <trim prefix="set" suffixOverrides=",">
+        <trim prefix="parent_id = case" suffix="end,">
+          <foreach collection="entityList" index="index" item="item">
+            <if test="item.parentId != null">
+                when id = #{item.id,jdbcType=BIGINT} then #{item.parentId,jdbcType=BIGINT}
+            </if>
+          </foreach>
+        </trim>
+        <trim prefix="name = case" suffix="end,">
+          <foreach collection="entityList" index="index" item="item">
+            <if test="item.name != null">
+                when id = #{item.id,jdbcType=BIGINT} then #{item.name,jdbcType=VARCHAR}
+            </if>
+          </foreach>
+        </trim>
+        <trim prefix="title = case" suffix="end,">
+          <foreach collection="entityList" index="index" item="item">
+            <if test="item.title != null">
+                when id = #{item.id,jdbcType=BIGINT} then #{item.title,jdbcType=VARCHAR}
+            </if>
+          </foreach>
+        </trim>
+        <trim prefix="icon = case" suffix="end,">
+          <foreach collection="entityList" index="index" item="item">
+            <if test="item.icon != null">
+                when id = #{item.id,jdbcType=BIGINT} then #{item.icon,jdbcType=VARCHAR}
+            </if>
+          </foreach>
+        </trim>
+        <trim prefix="permission_type = case" suffix="end,">
+          <foreach collection="entityList" index="index" item="item">
+            <if test="item.permissionType != null">
+                when id = #{item.id,jdbcType=BIGINT} then #{item.permissionType,jdbcType=TINYINT}
+            </if>
+          </foreach>
+        </trim>
+        <trim prefix="path = case" suffix="end,">
+          <foreach collection="entityList" index="index" item="item">
+            <if test="item.path != null">
+                when id = #{item.id,jdbcType=BIGINT} then #{item.path,jdbcType=VARCHAR}
+            </if>
+          </foreach>
+        </trim>
+        <trim prefix="redirect = case" suffix="end,">
+          <foreach collection="entityList" index="index" item="item">
+            <if test="item.redirect != null">
+                when id = #{item.id,jdbcType=BIGINT} then #{item.redirect,jdbcType=VARCHAR}
+            </if>
+          </foreach>
+        </trim>
+        <trim prefix="component = case" suffix="end,">
+          <foreach collection="entityList" index="index" item="item">
+            <if test="item.component != null">
+                when id = #{item.id,jdbcType=BIGINT} then #{item.component,jdbcType=VARCHAR}
+            </if>
+          </foreach>
+        </trim>
+        <trim prefix="affix = case" suffix="end,">
+          <foreach collection="entityList" index="index" item="item">
+            <if test="item.affix != null">
+                when id = #{item.id,jdbcType=BIGINT} then #{item.affix,jdbcType=BIT}
+            </if>
+          </foreach>
+        </trim>
+        <trim prefix="sort = case" suffix="end,">
+          <foreach collection="entityList" index="index" item="item">
+            <if test="item.sort != null">
+                when id = #{item.id,jdbcType=BIGINT} then #{item.sort,jdbcType=INTEGER}
+            </if>
+          </foreach>
+        </trim>
+        <trim prefix="hidden = case" suffix="end,">
+          <foreach collection="entityList" index="index" item="item">
+            <if test="item.hidden != null">
+                when id = #{item.id,jdbcType=BIGINT} then #{item.hidden,jdbcType=BIT}
+            </if>
+          </foreach>
+        </trim>
+        <trim prefix="create_time = case" suffix="end,">
+          <foreach collection="entityList" index="index" item="item">
+            <if test="item.createTime != null">
+                when id = #{item.id,jdbcType=BIGINT} then #{item.createTime,jdbcType=TIMESTAMP}
+            </if>
+          </foreach>
+        </trim>
+        <trim prefix="state = case" suffix="end,">
+          <foreach collection="entityList" index="index" item="item">
+            <if test="item.state != null">
+                when id = #{item.id,jdbcType=BIGINT} then #{item.state,jdbcType=BIT}
+            </if>
+          </foreach>
+        </trim>
+      </trim>
+      where id in
+      <foreach close=")" collection="entityList" item="item" open="(" separator=", ">
+        #{item.id,jdbcType=BIGINT}
+      </foreach>
+    </update>
+
+    <sql id="Dynamic_Column">
+        <choose>
+            <when test="columns != null and columns.length != 0">
+                <foreach collection="columns" item="item" separator=",">
+                    ${item}
+                </foreach>
+            </when>
+            <otherwise>
+                <include refid="Base_Column_List"/>
+            </otherwise>
+        </choose>
+    </sql>
+
+    <select id="getById" parameterType="Long" resultMap="BaseResultMap">
+        select <include refid="Dynamic_Column" />
+        from `page_permission`
+        where id = #{id,jdbcType=BIGINT}
+        and state = 0
+    </select>
+
+    <select id="listByIds" resultMap="BaseResultMap">
+        select <include refid="Dynamic_Column" />
+        from `page_permission`
+        where id in
+        <foreach collection="ids" close=")" item="item" open="(" separator=",">
+            #{item,jdbcType=BIGINT}
+        </foreach>
+        and state = 0
+    </select>
+
+    <update id="deleteById" parameterType="Long">
+        update `page_permission`
+        set state = 1
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="deleteBatchByIds">
+        update `page_permission`
+        set state = 1 where id in
+        <foreach collection="ids" separator="," item="item" close=")" open="(">
+            #{item,jdbcType=BIGINT}
+        </foreach>
+        and state = 0
+    </update>
+
+</mapper>

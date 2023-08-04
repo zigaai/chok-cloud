@@ -1,6 +1,6 @@
 // package com.zigaai.upms.model.convertor;
 //
-// import com.zigaai.common.core.model.dto.PayloadDTO;
+// import com.zigaai.common.security.model.dto.PayloadDTO;
 // import com.zigaai.upms.model.security.SystemUser;
 // import com.zigaai.upms.model.vo.SystemUserVO;
 // import org.mapstruct.Mapper;

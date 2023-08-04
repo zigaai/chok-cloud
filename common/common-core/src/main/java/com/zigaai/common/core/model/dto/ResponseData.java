@@ -1,10 +1,12 @@
 package com.zigaai.common.core.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.zigaai.common.core.infra.exception.BizException;
 import com.zigaai.common.core.model.enumeration.ResponseDataStatus;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.util.Assert;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -116,6 +118,14 @@ public class ResponseData<T> implements Serializable {
 
     public static <T> boolean isEmpty(ResponseData<T> res) {
         return res == null || !Objects.equals(ResponseDataStatus.SUCCESS.getValue(), res.getCode()) || res.getData() == null;
+    }
+
+    public static <T> T unwrap(ResponseData<T> res) {
+        if (isEmpty(res)) {
+            Assert.notNull(res, "res can not be null");
+            throw BizException.of(res.getMessage());
+        }
+        return res.getData();
     }
 
 }

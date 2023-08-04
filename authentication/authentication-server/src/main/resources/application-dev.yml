@@ -1,0 +1,51 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://192.168.100.100:3306/chok_authorization?characterEncoding=utf8&useSSL=true&rewriteBatchedStatements=true
+    username: root
+    password: 741852963mysql
+  data:
+    redis:
+      client-type: lettuce
+      database: 1
+      host: 192.168.100.100
+      port: 6379
+      password: 741852963redis
+      lettuce:
+        pool:
+          enabled: true
+  security:
+    oauth2:
+      authorizationserver:
+        endpoint:
+          jwk-set-uri: /oauth2/jwks
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://127.0.0.1:9000${spring.security.oauth2.authorizationserver.endpoint.jwk-set-uri}
+
+mybatis:
+  mapper-locations:
+    - classpath:mapper/*/*.xml
+    - classpath:mapper/*.xml
+mybatis-plus:
+  mapper-locations:
+    - classpath:mapper/*/*.xml
+    - classpath:mapper/*.xml
+logging:
+  level:
+    org.springframework.security: trace
+    com.zigaai.authorization.mapper: debug
+
+security:
+  ignore-urls:
+    - /favicon.ico
+    - /login
+    - /register
+    - /validateCode
+    - /wx/portal/{appId}
+    - /wx/authorization/{appId}
+    - /wx/authorization/{appId}/callback
+  token:
+    prefix: "Bearer "
+    time-to-live: 30000

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zigaai.authentication.mapper.RoleMapper">
+    <!--@Table `role`-->
+    <resultMap id="BaseResultMap" type="com.zigaai.authentication.model.entity.Role">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="role_code" jdbcType="VARCHAR" property="roleCode" />
+        <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+        <result column="role_description" jdbcType="VARCHAR" property="roleDescription" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="state" jdbcType="BIT" property="state" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, role_code, role_name, role_description, create_time, state
+    </sql>
+
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.zigaai.authentication.model.entity.Role" useGeneratedKeys="true">
+        insert into `role`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="roleCode != null">
+                role_code,
+            </if>
+            <if test="roleName != null">
+                role_name,
+            </if>
+            <if test="roleDescription != null">
+                role_description,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="state != null">
+                state,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="roleCode != null">
+                #{roleCode,jdbcType=VARCHAR},
+            </if>
+            <if test="roleName != null">
+                #{roleName,jdbcType=VARCHAR},
+            </if>
+            <if test="roleDescription != null">
+                #{roleDescription,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="state != null">
+                #{state,jdbcType=BIT},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.zigaai.authentication.model.entity.Role">
+      update `role`
+      <set>
+        <if test="et.roleCode != null">
+            role_code = #{et.roleCode,jdbcType=VARCHAR},
+        </if>
+        <if test="et.roleName != null">
+            role_name = #{et.roleName,jdbcType=VARCHAR},
+        </if>
+        <if test="et.roleDescription != null">
+            role_description = #{et.roleDescription,jdbcType=VARCHAR},
+        </if>
+        <if test="et.createTime != null">
+            create_time = #{et.createTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="et.state != null">
+            state = #{et.state,jdbcType=BIT},
+        </if>
+      </set>
+      where id = #{et.id,jdbcType=BIGINT}
+    </update>
+
+    <insert id="insertBatch" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
+      insert into `role`
+      (id, role_code, role_name, role_description, create_time, state)
+      values
+      <foreach collection="entityList" item="item" separator=",">
+      (#{item.id,jdbcType=BIGINT}, #{item.roleCode,jdbcType=VARCHAR}, #{item.roleName,jdbcType=VARCHAR}, #{item.roleDescription,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.state,jdbcType=BIT})
+      </foreach>
+    </insert>
+
+    <update id="updateBatchById" parameterType="java.util.Collection">
+      update `role`
+      <trim prefix="set" suffixOverrides=",">
+        <trim prefix="role_code = case" suffix="end,">
+          <foreach collection="entityList" index="index" item="item">
+            <if test="item.roleCode != null">
+                when id = #{item.id,jdbcType=BIGINT} then #{item.roleCode,jdbcType=VARCHAR}
+            </if>
+          </foreach>
+        </trim>
+        <trim prefix="role_name = case" suffix="end,">
+          <foreach collection="entityList" index="index" item="item">
+            <if test="item.roleName != null">
+                when id = #{item.id,jdbcType=BIGINT} then #{item.roleName,jdbcType=VARCHAR}
+            </if>
+          </foreach>
+        </trim>
+        <trim prefix="role_description = case" suffix="end,">
+          <foreach collection="entityList" index="index" item="item">
+            <if test="item.roleDescription != null">
+                when id = #{item.id,jdbcType=BIGINT} then #{item.roleDescription,jdbcType=VARCHAR}
+            </if>
+          </foreach>
+        </trim>
+        <trim prefix="create_time = case" suffix="end,">
+          <foreach collection="entityList" index="index" item="item">
+            <if test="item.createTime != null">
+                when id = #{item.id,jdbcType=BIGINT} then #{item.createTime,jdbcType=TIMESTAMP}
+            </if>
+          </foreach>
+        </trim>
+        <trim prefix="state = case" suffix="end,">
+          <foreach collection="entityList" index="index" item="item">
+            <if test="item.state != null">
+                when id = #{item.id,jdbcType=BIGINT} then #{item.state,jdbcType=BIT}
+            </if>
+          </foreach>
+        </trim>
+      </trim>
+      where id in
+      <foreach close=")" collection="entityList" item="item" open="(" separator=", ">
+        #{item.id,jdbcType=BIGINT}
+      </foreach>
+    </update>
+
+    <sql id="Dynamic_Column">
+        <choose>
+            <when test="columns != null and columns.length != 0">
+                <foreach collection="columns" item="item" separator=",">
+                    ${item}
+                </foreach>
+            </when>
+            <otherwise>
+                <include refid="Base_Column_List"/>
+            </otherwise>
+        </choose>
+    </sql>
+
+    <select id="getById" parameterType="Long" resultMap="BaseResultMap">
+        select <include refid="Dynamic_Column" />
+        from `role`
+        where id = #{id,jdbcType=BIGINT}
+        and state = 0
+    </select>
+
+    <select id="listByIds" resultMap="BaseResultMap">
+        select <include refid="Dynamic_Column" />
+        from `role`
+        where id in
+        <foreach collection="ids" close=")" item="item" open="(" separator=",">
+            #{item,jdbcType=BIGINT}
+        </foreach>
+        and state = 0
+    </select>
+
+    <update id="deleteById" parameterType="Long">
+        update `role`
+        set state = 1
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="deleteBatchByIds">
+        update `role`
+        set state = 1 where id in
+        <foreach collection="ids" separator="," item="item" close=")" open="(">
+            #{item,jdbcType=BIGINT}
+        </foreach>
+        and state = 0
+    </update>
+
+</mapper>
