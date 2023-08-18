@@ -1,0 +1,23 @@
+server:
+  port: 9999
+
+spring:
+  application:
+    name: "${moduleName}"
+  cloud:
+    kubernetes:
+      discovery:
+        namespaces:
+          - app
+      config:
+        sources:
+          - name: \${spring.application.name}-cm
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - info
+          - refresh

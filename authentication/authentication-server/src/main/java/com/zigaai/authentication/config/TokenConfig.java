@@ -4,6 +4,7 @@ import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import com.zigaai.authentication.config.keygen.UUIDOAuth2RefreshTokenGenerator;
 import com.zigaai.authentication.model.security.SystemUser;
+import com.zigaai.common.core.model.constants.SecurityConstant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -42,11 +43,12 @@ public class TokenConfig {
             SystemUser systemUser = (SystemUser) context.getPrincipal().getPrincipal();
             if (context.getTokenType().equals(OAuth2TokenType.ACCESS_TOKEN)
                     || context.getTokenType().getValue().equals(OidcParameterNames.ID_TOKEN)) {
-                claims.claim("id", systemUser.getId());
-                claims.claim("userType", systemUser.getUserType());
+                claims.claim(SecurityConstant.TokenKey.ID, systemUser.getId());
+                claims.claim(SecurityConstant.TokenKey.USER_TYPE, systemUser.getUserType());
                 String kid = encryptSalt(systemUser.getUsername(), systemUser.getSalt());
-                claims.claim("kid", kid);
-                claims.claim("sid", UUID.randomUUID());
+                claims.claim(SecurityConstant.TokenKey.KID, kid);
+                claims.claim(SecurityConstant.TokenKey.SID, UUID.randomUUID());
+                claims.claim(SecurityConstant.TokenKey.CLIENT_ID, context.getRegisteredClient().getClientId());
                 claims.claim(IdTokenClaimNames.AUTH_TIME, new Date());
             }
         };

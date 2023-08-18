@@ -1,0 +1,7 @@
+dependencies {
+    implementation 'jakarta.servlet:jakarta.servlet-api'
+    implementation 'jakarta.validation:jakarta.validation-api'
+    compileOnly 'org.springframework:spring-webmvc'
+
+    implementation project(":common:common-core")
+}

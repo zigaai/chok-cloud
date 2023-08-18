@@ -4,6 +4,7 @@ subprojects {
         implementation 'org.apache.commons:commons-lang3'
 
         implementation project(":common:common-core")
+        implementation project(":common:common-web")
         implementation project(":common:common-security")
     }
 }

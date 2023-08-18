@@ -2,7 +2,7 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://192.168.100.100:3306/chok_authorization?characterEncoding=utf8&useSSL=true&rewriteBatchedStatements=true
+    url: jdbc:mysql://192.168.100.100:3306/chok_authentication?characterEncoding=utf8&useSSL=true&rewriteBatchedStatements=true
     username: root
     password: 741852963mysql
   data:
@@ -47,5 +47,4 @@ security:
     - /wx/authorization/{appId}
     - /wx/authorization/{appId}/callback
   token:
-    prefix: "Bearer "
     time-to-live: 30000

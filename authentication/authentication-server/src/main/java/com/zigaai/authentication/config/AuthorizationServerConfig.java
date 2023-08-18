@@ -7,6 +7,8 @@ import com.zigaai.authentication.security.handler.OAuth2AuthenticationEntryPoint
 import com.zigaai.authentication.security.handler.OAuth2AuthenticationSuccessHandler;
 import com.zigaai.authentication.security.handler.OAuth2AuthorizationErrorHandler;
 import com.zigaai.authentication.security.oauth2.RedisOAuth2AuthorizationService;
+import com.zigaai.common.security.handler.DefaultAccessDeniedHandler;
+import com.zigaai.common.security.handler.DefaultAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -52,6 +54,10 @@ public class AuthorizationServerConfig {
 
     private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
 
+    private final DefaultAccessDeniedHandler defaultAccessDeniedHandler;
+
+    private final DefaultAuthenticationEntryPoint defaultAuthenticationEntryPoint;
+
     private final JwtFilter jwtFilter;
 
     private final RedisTemplate<String, Object> redisTemplate;
@@ -93,7 +99,10 @@ public class AuthorizationServerConfig {
                 )
                 // Accept access tokens for User Info and/or Client Registration
                 .oauth2ResourceServer((resourceServer) -> resourceServer
-                        .jwt(Customizer.withDefaults()))
+                        .jwt(Customizer.withDefaults())
+                        .accessDeniedHandler(defaultAccessDeniedHandler)
+                        .authenticationEntryPoint(defaultAuthenticationEntryPoint)
+                )
                 .csrf(AbstractHttpConfigurer::disable)
                 .logout(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable);
@@ -122,7 +131,7 @@ public class AuthorizationServerConfig {
     }
 
     private OAuth2AutoRefreshTokenAuthenticationConverter buildOAuth2AutoRefreshTokenAuthenticationConverter() {
-        return new OAuth2AutoRefreshTokenAuthenticationConverter(redisTemplate, jwtDecoder);
+        return new OAuth2AutoRefreshTokenAuthenticationConverter(redisTemplate, jwtDecoder, registeredClientRepository);
     }
 
 }

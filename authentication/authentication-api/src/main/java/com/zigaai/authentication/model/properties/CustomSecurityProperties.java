@@ -34,9 +34,5 @@ public class CustomSecurityProperties {
          */
         private Long timeToLive = 3600L;
 
-        /**
-         * token前缀
-         */
-        private String prefix = "Bearer ";
     }
 }

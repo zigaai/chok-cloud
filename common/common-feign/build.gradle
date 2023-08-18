@@ -2,6 +2,7 @@ dependencies {
     api 'org.springframework.cloud:spring-cloud-starter-openfeign'
     api 'io.github.openfeign:feign-okhttp'
     api 'com.alibaba.cloud:spring-cloud-starter-alibaba-sentinel'
+    api 'com.github.ben-manes.caffeine:caffeine'
     compileOnly 'org.springframework:spring-webmvc'
     implementation 'jakarta.servlet:jakarta.servlet-api'
     implementation project(":common:common-core")

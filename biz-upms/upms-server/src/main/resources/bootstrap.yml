@@ -6,7 +6,7 @@ server:
       min-spare: {MIN_THREAD:100}
 spring:
   application:
-    name: upms-service
+    name: "${moduleName}"
   profiles:
     active: dev
 #  main:
@@ -20,7 +20,7 @@ spring:
           - app
       config:
         sources:
-          - name: ${spring.application.name}-cm
+          - name: \${spring.application.name}-cm
     openfeign:
       okhttp:
         enabled: true

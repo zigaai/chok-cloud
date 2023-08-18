@@ -2,14 +2,13 @@ package com.zigaai.authentication.security.filter;
 
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWSObject;
-import com.zigaai.authentication.security.userdetails.service.MultiAuthenticationUserDetailsService;
-import com.zigaai.authentication.model.properties.CustomSecurityProperties;
 import com.zigaai.authentication.model.security.SystemUser;
+import com.zigaai.authentication.security.userdetails.service.MultiAuthenticationUserDetailsService;
 import com.zigaai.common.core.infra.exception.JwtExpiredException;
 import com.zigaai.common.core.infra.strategy.StrategyFactory;
 import com.zigaai.common.core.model.constants.SecurityConstant;
-import com.zigaai.common.security.model.dto.PayloadDTO;
 import com.zigaai.common.core.model.enumeration.SysUserType;
+import com.zigaai.common.security.model.dto.PayloadDTO;
 import com.zigaai.common.security.utils.JWTUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -33,14 +32,12 @@ import java.text.ParseException;
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
 
-    private final CustomSecurityProperties securityProperties;
-
     private final StrategyFactory<SysUserType, MultiAuthenticationUserDetailsService> userDetailsServiceStrategy;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         String token = request.getHeader(SecurityConstant.PRE_AUTHORIZATION_HEADER);
-        String prefix = securityProperties.getToken().getPrefix();
+        String prefix = SecurityConstant.TOKEN_PREFIX;
         if (StringUtils.isBlank(token) || !token.startsWith(prefix)) {
             chain.doFilter(request, response);
             return;

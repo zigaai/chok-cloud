@@ -16,4 +16,7 @@ include 'biz-upms:upms-server'
 findProject(':biz-upms:upms-server')?.name = 'upms-server'
 include 'common:common-security'
 findProject(':common:common-security')?.name = 'common-security'
+include 'gateway'
+include 'common:common-web'
+findProject(':common:common-web')?.name = 'common-web'
 

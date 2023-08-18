@@ -1,0 +1,25 @@
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        # 认证授权中心
+        - id: authentication-server
+          # uri: lb://authentication-server
+          uri: http://127.0.0.1:9000
+          predicates:
+            - Path=/authentication/**
+          filters:
+            - RewritePath=/authentication(?<segment>/?.*), $\{segment}
+            - AutoRefreshTokenFilter
+        # 测试模块
+        - id: upms-server
+          # uri: lb://authentication-server
+          uri: http://127.0.0.1:9100
+          predicates:
+            - Path=/upms/**
+          filters:
+            - RewritePath=/upms(?<segment>/?.*), $\{segment}
+            - AutoRefreshTokenFilter

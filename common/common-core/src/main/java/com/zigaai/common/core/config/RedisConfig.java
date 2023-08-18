@@ -2,6 +2,7 @@ package com.zigaai.common.core.config;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
@@ -17,6 +18,7 @@ import java.time.Duration;
 @EnableCaching
 @AutoConfiguration
 @AutoConfigureBefore(RedisAutoConfiguration.class)
+@ConditionalOnExpression("!T(org.springframework.util.StringUtils).isEmpty('${spring.data.redis.host:}')")
 public class RedisConfig {
 
     @Bean

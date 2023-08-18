@@ -1,6 +1,7 @@
 package com.zigaai.common.security.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.zigaai.common.core.model.constants.SecurityConstant;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -62,13 +63,13 @@ public class PayloadDTO implements Serializable {
     public static PayloadDTO fromAccessTokenClaims(Map<String, Object> claims) {
         Assert.notEmpty(claims, "claims can not be empty");
         PayloadDTO payload = new PayloadDTO();
-        payload.setUsername(claims.get("sub").toString());
-        payload.setId(Long.parseLong(claims.get("id").toString()));
-        payload.setUserType(Byte.parseByte(claims.get("userType").toString()));
-        payload.setExp(Instant.parse(claims.get("exp").toString()).getEpochSecond());
-        payload.setIat(Instant.parse(claims.get("iat").toString()).getEpochSecond());
-        payload.setClientId((ArrayList<String>) claims.get("aud"));
-        payload.setScopes((ArrayList<String>) claims.get("scope"));
+        payload.setUsername(claims.get(SecurityConstant.TokenKey.SUB).toString());
+        payload.setId(Long.parseLong(claims.get(SecurityConstant.TokenKey.ID).toString()));
+        payload.setUserType(Byte.parseByte(claims.get(SecurityConstant.TokenKey.USER_TYPE).toString()));
+        payload.setExp(Instant.parse(claims.get(SecurityConstant.TokenKey.EXP).toString()).getEpochSecond());
+        payload.setIat(Instant.parse(claims.get(SecurityConstant.TokenKey.IAT).toString()).getEpochSecond());
+        payload.setClientId((ArrayList<String>) claims.get(SecurityConstant.TokenKey.AUD));
+        payload.setScopes((ArrayList<String>) claims.get(SecurityConstant.TokenKey.SCOPE));
         return payload;
     }
 }

@@ -54,9 +54,11 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
         }
         if (refreshToken != null) {
             builder.refreshToken(refreshToken.getTokenValue());
-            String key = OAuth2RedisKeys.REL_ACCESS_TOKEN_REFRESH_TOKEN.apply(accessToken.getTokenValue());
-            long duration = refreshToken.getExpiresAt().toEpochMilli() - System.currentTimeMillis();
-            redisTemplate.opsForValue().set(key, refreshToken.getTokenValue(), duration, TimeUnit.MILLISECONDS);
+            if (accessToken.getExpiresAt() != null) {
+                long duration = accessToken.getExpiresAt().toEpochMilli() - System.currentTimeMillis() + 1000;
+                String key = OAuth2RedisKeys.REL_ACCESS_TOKEN_REFRESH_TOKEN.apply(accessToken.getTokenValue());
+                redisTemplate.opsForValue().set(key, refreshToken.getTokenValue(), duration, TimeUnit.MILLISECONDS);
+            }
         }
         if (!CollectionUtils.isEmpty(additionalParameters)) {
             builder.additionalParameters(additionalParameters);

@@ -1,4 +1,4 @@
-package com.zigaai.common.core.infra.handler;
+package com.zigaai.common.web.infra.handler;
 
 import com.zigaai.common.core.infra.exception.BizException;
 import com.zigaai.common.core.infra.exception.BizIllegalArgumentException;

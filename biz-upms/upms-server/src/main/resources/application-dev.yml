@@ -1,6 +1,4 @@
 spring:
-  application:
-    name: upms-service
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.zaxxer.hikari.HikariDataSource

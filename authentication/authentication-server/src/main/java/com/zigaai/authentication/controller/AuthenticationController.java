@@ -1,7 +1,7 @@
 package com.zigaai.authentication.controller;
 
-import com.zigaai.authentication.security.userdetails.service.MultiAuthenticationUserDetailsService;
 import com.zigaai.authentication.model.security.SystemUser;
+import com.zigaai.authentication.security.userdetails.service.MultiAuthenticationUserDetailsService;
 import com.zigaai.common.core.infra.strategy.StrategyFactory;
 import com.zigaai.common.core.model.dto.ResponseData;
 import com.zigaai.common.core.model.enumeration.ResponseDataStatus;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Slf4j
 @RestController
-@RequestMapping("/authentication")
+@RequestMapping("/")
 @RequiredArgsConstructor
 public class AuthenticationController {
 
