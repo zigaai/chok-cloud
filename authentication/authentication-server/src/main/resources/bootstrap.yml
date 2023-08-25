@@ -4,6 +4,8 @@ server:
     threads:
       max: {MAX_THREAD:800}
       min-spare: {MIN_THREAD:100}
+  servlet:
+    context-path: /authentication
 spring:
   application:
     name: "${moduleName}"
