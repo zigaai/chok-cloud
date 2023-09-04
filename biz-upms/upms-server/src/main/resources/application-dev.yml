@@ -19,7 +19,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: http://127.0.0.1:9000/oauth2/jwks
+          jwk-set-uri: ${authentication-server-url}/oauth2/jwks
 
 #mybatis:
 #  mapper-locations:

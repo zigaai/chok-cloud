@@ -6,7 +6,7 @@ server:
       min-spare: {MIN_THREAD:100}
 spring:
   application:
-    name: "${moduleName}"
+    name: ${MODULE_NAME}
   profiles:
     active: dev
 #  main:

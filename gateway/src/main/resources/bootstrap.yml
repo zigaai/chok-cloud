@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: "${moduleName}"
+    name: ${MODULE_NAME}
   cloud:
     kubernetes:
       discovery:

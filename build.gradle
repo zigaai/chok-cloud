@@ -65,7 +65,9 @@ subprojects {
 configure(moduleProjects) {
     processResources {
         filesMatching("bootstrap.yml") {
-            expand(moduleName: project.name)
+            expand(
+                    MODULE_NAME: project.name
+            )
         }
     }
 }

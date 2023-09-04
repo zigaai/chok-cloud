@@ -21,7 +21,7 @@ public final class OAuth2RedisKeys {
 
     public static final Function<String, String> REFRESH_TOKEN = key -> OAUTH2_PREFIX + OAuth2ParameterNames.REFRESH_TOKEN + ":" + key;
 
-    public static final Function<String, String> REL_ACCESS_TOKEN_REFRESH_TOKEN = key -> OAUTH2_PREFIX + OAuth2ParameterNames.ACCESS_TOKEN + "_to_" + OAuth2ParameterNames.REFRESH_TOKEN + ":" + key;
+    // public static final Function<String, String> REL_ACCESS_TOKEN_REFRESH_TOKEN = key -> OAUTH2_PREFIX + OAuth2ParameterNames.ACCESS_TOKEN + "_to_" + OAuth2ParameterNames.REFRESH_TOKEN + ":" + key;
 
     public static final Function<String, String> OIDC_TOKEN = key -> OAUTH2_PREFIX + "oidc_token:" + key;
 

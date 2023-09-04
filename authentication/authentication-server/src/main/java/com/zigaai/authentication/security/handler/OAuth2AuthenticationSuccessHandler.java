@@ -1,6 +1,5 @@
 package com.zigaai.authentication.security.handler;
 
-import com.zigaai.authentication.model.constants.OAuth2RedisKeys;
 import com.zigaai.common.core.model.dto.ResponseData;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,7 +23,6 @@ import org.springframework.util.CollectionUtils;
 import java.io.IOException;
 import java.time.temporal.ChronoUnit;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 @Component
 @RequiredArgsConstructor
@@ -54,11 +52,11 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
         }
         if (refreshToken != null) {
             builder.refreshToken(refreshToken.getTokenValue());
-            if (accessToken.getExpiresAt() != null) {
-                long duration = accessToken.getExpiresAt().toEpochMilli() - System.currentTimeMillis() + 1000;
-                String key = OAuth2RedisKeys.REL_ACCESS_TOKEN_REFRESH_TOKEN.apply(accessToken.getTokenValue());
-                redisTemplate.opsForValue().set(key, refreshToken.getTokenValue(), duration, TimeUnit.MILLISECONDS);
-            }
+            // if (accessToken.getExpiresAt() != null) {
+                // long duration = accessToken.getExpiresAt().toEpochMilli() - System.currentTimeMillis() + 1000;
+                // String key = OAuth2RedisKeys.REL_ACCESS_TOKEN_REFRESH_TOKEN.apply(accessToken.getTokenValue());
+                // redisTemplate.opsForValue().set(key, refreshToken.getTokenValue(), duration, TimeUnit.MILLISECONDS);
+            // }
         }
         if (!CollectionUtils.isEmpty(additionalParameters)) {
             builder.additionalParameters(additionalParameters);

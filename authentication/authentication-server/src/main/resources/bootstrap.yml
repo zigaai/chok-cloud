@@ -8,7 +8,7 @@ server:
     context-path: /authentication
 spring:
   application:
-    name: "${moduleName}"
+    name: ${MODULE_NAME}
   cloud:
     kubernetes:
       discovery:
