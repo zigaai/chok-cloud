@@ -44,7 +44,7 @@ public final class JWTUtil {
         // 签名
         jwsObject.sign(jwsSigner);
         String tokenVal = jwsObject.serialize();
-        return new UPMSToken(tokenVal, iat, exp);
+        return new UPMSToken(tokenVal, iat, exp, duration);
     }
 
     public static Pair<JWSObject, PayloadDTO> parseUnverified(String token) throws ParseException, JsonProcessingException {

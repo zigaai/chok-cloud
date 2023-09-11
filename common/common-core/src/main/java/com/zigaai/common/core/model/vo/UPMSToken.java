@@ -30,4 +30,9 @@ public class UPMSToken implements Serializable {
      */
     private final Long exp;
 
+    /**
+     * 过期时间
+     */
+    private final Long expiresIn;
+
 }
